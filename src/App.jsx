@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.css';
-import './app.css';
+import './App.css';
 import Home from './components/home';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
