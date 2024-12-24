@@ -3,7 +3,7 @@ import './index.css';
 import './App.css';
 import Home from './components/home';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+import Footer from './components/footer';
 import logo from './assets/logoo.webp';
 
 function App() {
