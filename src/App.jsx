@@ -15,7 +15,7 @@ function App() {
         <section className="bg-white shadow-lg rounded-lg p-8 mx-auto max-w-4xl text-center border border-gray-200">
           <h1 className="text-4xl font-extrabold text-gray-800">Profesyonel CV'nizi Hazırlayın</h1>
           <p className="mt-4 text-gray-600 text-lg">
-            CV maker ile çok profesyonel bir CV hazırlamak artık çok kolay. Size uygun şablonu seçin ve
+            CV maker ile profesyonel bir CV hazırlamak artık çok kolay. Size uygun şablonu seçin ve
             dakikalar içinde CV'nizi tamamlayın.
           </p>
           <button className="mt-6 bg-gradient-to-r from-blue-600 to-blue-400 text-white px-8 py-3 rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition transform duration-300">
