@@ -1,7 +1,5 @@
 import React from "react";
-import instagramLogo from "../assets/instagram.png";
-import twitterLogo from "../assets/twitter.png";
-import youtubeLogo from "../assets/youtube.png";
+import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 
 function Footer() {
   return (
@@ -22,27 +20,30 @@ function Footer() {
             <li>Adres: Eskişehir, Türkiye</li>
           </ul>
         </div>
-        <div className="flex justify-center space-x-4">
+        <div className="flex justify-center space-x-6">
           <a
             href="https://instagram.com"
             target="_blank"
             rel="noopener noreferrer"
+            className="text-gray-400 hover:text-white transition-colors duration-300"
           >
-            <img src={instagramLogo} alt="Instagram" className="h-6 w-6" />
+            <FaInstagram size={24} />
           </a>
           <a
             href="https://twitter.com"
             target="_blank"
             rel="noopener noreferrer"
+            className="text-gray-400 hover:text-white transition-colors duration-300"
           >
-            <img src={twitterLogo} alt="Twitter" className="h-6 w-6" />
+            <FaTwitter size={24} />
           </a>
           <a
             href="https://youtube.com"
             target="_blank"
             rel="noopener noreferrer"
+            className="text-gray-400 hover:text-white transition-colors duration-300"
           >
-            <img src={youtubeLogo} alt="YouTube" className="h-6 w-6" />
+            <FaYoutube size={24} />
           </a>
         </div>
       </div>
