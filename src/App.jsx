@@ -1,64 +1,56 @@
 import React from "react";
-import "./index.css";
-import "./App.css";
-import Home from "./components/home";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
-import Footer from "./components/footer";
-import { Routes, Route, Navigate } from "react-router-dom";
+import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import Templates from "./components/Templates";
-import CreateCV from "./components/CreateCV";
-import { AuthProvider } from "./context/AuthContext";
-import { useAuth } from "./context/AuthContext";
-
-function PrivateRoute({ children }) {
-  const { currentUser, loading } = useAuth();
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  return currentUser ? children : <Navigate to="/login" />;
-}
+import CVTemplates from "./components/CVTemplates";
+import CVBuilder from "./components/CVBuilder";
+import CVChatbot from "./components/CVChatbot";
+import PrivateRoute from "./components/PrivateRoute";
+import MyCVs from "./components/MyCVs";
 
 function App() {
   return (
     <AuthProvider>
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className="flex-grow">
+      <Router>
+        <div className="min-h-screen bg-gray-50">
+          <Navbar />
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route
-              path="/"
-              element={
-                <PrivateRoute>
-                  <Home />
-                </PrivateRoute>
-              }
-            />
             <Route
               path="/templates"
               element={
                 <PrivateRoute>
-                  <Templates />
+                  <CVTemplates />
                 </PrivateRoute>
               }
             />
             <Route
-              path="/create-cv/:templateId"
+              path="/builder/:templateId"
               element={
                 <PrivateRoute>
-                  <CreateCV />
+                  <CVBuilder />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/my-cvs"
+              element={
+                <PrivateRoute>
+                  <MyCVs />
                 </PrivateRoute>
               }
             />
           </Routes>
-        </main>
-        <Footer />
-      </div>
+          <CVChatbot />
+          <Toaster position="bottom-right" />
+        </div>
+      </Router>
     </AuthProvider>
   );
 }
