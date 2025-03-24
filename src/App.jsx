@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
-import Home from "./components/Home";
+import Footer from "./components/Footer";
+import Home from "./components/Home"; // ← çoğul değil!
 import Login from "./components/Login";
 import Register from "./components/Register";
 import CVTemplates from "./components/CVTemplates";
@@ -16,37 +17,40 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="min-h-screen bg-gray-50">
+        <div className="flex flex-col min-h-screen bg-gray-50">
           <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route
-              path="/templates"
-              element={
-                <PrivateRoute>
-                  <CVTemplates />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/builder/:templateId"
-              element={
-                <PrivateRoute>
-                  <CVBuilder />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/my-cvs"
-              element={
-                <PrivateRoute>
-                  <MyCVs />
-                </PrivateRoute>
-              }
-            />
-          </Routes>
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route
+                path="/templates"
+                element={
+                  <PrivateRoute>
+                    <CVTemplates />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/builder/:templateId"
+                element={
+                  <PrivateRoute>
+                    <CVBuilder />
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/my-cvs"
+                element={
+                  <PrivateRoute>
+                    <MyCVs />
+                  </PrivateRoute>
+                }
+              />
+            </Routes>
+          </main>
+          <Footer />
           <CVChatbot />
           <Toaster position="bottom-right" />
         </div>
