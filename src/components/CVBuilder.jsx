@@ -186,25 +186,8 @@ const CVBuilder = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-8">
+        <div className="flex justify-between items-center mb-8 mt-8">
           <h1 className="text-3xl font-bold text-gray-900">CV Düzenle</h1>
-          <div className="flex space-x-4">
-            <button
-              onClick={handleSave}
-              disabled={saving}
-              className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              <FiSave className="mr-2" />
-              {saving ? "Kaydediliyor..." : "Kaydet"}
-            </button>
-            <button
-              onClick={() => window.print()}
-              className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-            >
-              <FiDownload className="mr-2" />
-              İndir
-            </button>
-          </div>
         </div>
 
         {/* Kişisel Bilgiler */}
@@ -216,7 +199,12 @@ const CVBuilder = () => {
               placeholder="Ad Soyad"
               value={cvData.personalInfo.fullName}
               onChange={(e) =>
-                handleInputChange("personalInfo", null, "fullName", e.target.value)
+                handleInputChange(
+                  "personalInfo",
+                  null,
+                  "fullName",
+                  e.target.value
+                )
               }
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -243,7 +231,12 @@ const CVBuilder = () => {
               placeholder="Adres"
               value={cvData.personalInfo.address}
               onChange={(e) =>
-                handleInputChange("personalInfo", null, "address", e.target.value)
+                handleInputChange(
+                  "personalInfo",
+                  null,
+                  "address",
+                  e.target.value
+                )
               }
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
@@ -287,7 +280,12 @@ const CVBuilder = () => {
                   placeholder="Okul"
                   value={edu.school}
                   onChange={(e) =>
-                    handleInputChange("education", index, "school", e.target.value)
+                    handleInputChange(
+                      "education",
+                      index,
+                      "school",
+                      e.target.value
+                    )
                   }
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -296,7 +294,12 @@ const CVBuilder = () => {
                   placeholder="Derece"
                   value={edu.degree}
                   onChange={(e) =>
-                    handleInputChange("education", index, "degree", e.target.value)
+                    handleInputChange(
+                      "education",
+                      index,
+                      "degree",
+                      e.target.value
+                    )
                   }
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -305,7 +308,12 @@ const CVBuilder = () => {
                   placeholder="Alan"
                   value={edu.field}
                   onChange={(e) =>
-                    handleInputChange("education", index, "field", e.target.value)
+                    handleInputChange(
+                      "education",
+                      index,
+                      "field",
+                      e.target.value
+                    )
                   }
                   className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -542,14 +550,24 @@ const CVBuilder = () => {
                   placeholder="Dil"
                   value={lang.name}
                   onChange={(e) =>
-                    handleInputChange("languages", index, "name", e.target.value)
+                    handleInputChange(
+                      "languages",
+                      index,
+                      "name",
+                      e.target.value
+                    )
                   }
                   className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <select
                   value={lang.level}
                   onChange={(e) =>
-                    handleInputChange("languages", index, "level", e.target.value)
+                    handleInputChange(
+                      "languages",
+                      index,
+                      "level",
+                      e.target.value
+                    )
                   }
                   className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
@@ -631,6 +649,17 @@ const CVBuilder = () => {
             </div>
           ))}
         </section>
+
+        <div className="flex justify-center mt-16">
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors ml-4"
+          >
+            <FiSave className="mr-2" />
+            {saving ? "Kaydediliyor..." : "Kaydet"}
+          </button>
+        </div>
       </div>
     </div>
   );

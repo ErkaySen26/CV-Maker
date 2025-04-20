@@ -1,13 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { toast } from "react-hot-toast";
-import { FiEdit2, FiTrash2, FiPlus } from "react-icons/fi";
+import { FiEdit2, FiTrash2, FiPlus, FiDownload } from "react-icons/fi";
 import { motion } from "framer-motion";
 
-const MyCVs = () => {
+const MyCVs = lazy(() => import("./MyCVs"));
+
+const MyCVsComponent = () => {
   const [cvs, setCvs] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
@@ -16,7 +25,13 @@ const MyCVs = () => {
   useEffect(() => {
     const fetchCVs = async () => {
       try {
-        const q = query(collection(db, "cvs"), where("userId", "==", user.uid));
+        const q = query(
+          collection(db, "cvs"),
+          where("userId", "==", user.uid)
+          // Specify the fields to fetch
+          // Uncomment the line below if Firestore supports field selection
+          // select("id", "content.personalInfo.fullName", "content.personalInfo.title", "updatedAt")
+        );
         const querySnapshot = await getDocs(q);
         const cvsData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
@@ -49,6 +64,57 @@ const MyCVs = () => {
         toast.error("CV silinirken bir hata oluştu");
       }
     }
+  };
+
+  const handleDownload = (cvId) => {
+    const cv = cvs.find((cv) => cv.id === cvId);
+    if (!cv) return;
+
+    const content = `
+      <h1 style='text-align: center;'>${cv.content.personalInfo.fullName}</h1>
+      <p><strong>Email:</strong> ${cv.content.personalInfo.email}</p>
+      <p><strong>Phone:</strong> ${cv.content.personalInfo.phone}</p>
+      <p><strong>Address:</strong> ${cv.content.personalInfo.address}</p>
+      <h2>Education</h2>
+      <ul>${cv.content.education
+        .map(
+          (edu) =>
+            `<li>${edu.degree} in ${edu.field} from ${edu.school} (${edu.startDate} - ${edu.endDate})</li>`
+        )
+        .join("")}</ul>
+      <h2>Experience</h2>
+      <ul>${cv.content.experience
+        .map(
+          (exp) =>
+            `<li>${exp.position} at ${exp.company} (${exp.startDate} - ${exp.endDate})</li>`
+        )
+        .join("")}</ul>
+      <h2>Skills</h2>
+      <ul>${cv.content.skills
+        .map((skill) => `<li>${skill.name} - ${skill.level}</li>`)
+        .join("")}</ul>
+      <h2>Languages</h2>
+      <ul>${cv.content.languages
+        .map((lang) => `<li>${lang.name} - ${lang.level}</li>`)
+        .join("")}</ul>
+      <h2>Projects</h2>
+      <ul>${cv.content.projects
+        .map(
+          (proj) =>
+            `<li>${proj.name}: ${proj.description} (<a href='${proj.link}'>Link</a>)</li>`
+        )
+        .join("")}</ul>
+    `;
+
+    const element = document.createElement("a");
+    const file = new Blob([`<html><body>${content}</body></html>`], {
+      type: "application/msword",
+    });
+    element.href = URL.createObjectURL(file);
+    element.download = `${cv.content.personalInfo.fullName || "CV"}.doc`;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
   };
 
   if (loading) {
@@ -103,7 +169,8 @@ const MyCVs = () => {
                       {cv.content?.personalInfo?.fullName || "İsimsiz CV"}
                     </h3>
                     <p className="text-gray-600">
-                      {cv.content?.personalInfo?.title || "Başlık belirtilmemiş"}
+                      {cv.content?.personalInfo?.title ||
+                        "Başlık belirtilmemiş"}
                     </p>
                   </div>
                   <div className="flex space-x-2">
@@ -118,6 +185,12 @@ const MyCVs = () => {
                       className="p-2 text-red-600 hover:text-red-800 transition-colors"
                     >
                       <FiTrash2 className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => handleDownload(cv.id)}
+                      className="p-2 text-green-600 hover:text-green-800 transition-colors"
+                    >
+                      <FiDownload className="w-5 h-5" />
                     </button>
                   </div>
                 </div>
@@ -138,4 +211,4 @@ const MyCVs = () => {
   );
 };
 
-export default MyCVs;
+export default MyCVsComponent;

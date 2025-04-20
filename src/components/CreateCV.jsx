@@ -1,9 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import html2pdf from "html2pdf.js";
 import { useAuth } from "../context/AuthContext";
+
+const LazyComponent = lazy(() => import("./SomeComponent"));
+
+const templateStyles = {
+  modern: {
+    backgroundColor: "#f0f0f0",
+    color: "#333",
+    fontFamily: "Arial, sans-serif",
+  },
+  creative: {
+    backgroundColor: "#fff0f5",
+    color: "#444",
+    fontFamily: "Courier New, monospace",
+  },
+  minimal: {
+    backgroundColor: "#ffffff",
+    color: "#000",
+    fontFamily: "Times New Roman, serif",
+  },
+};
 
 function CreateCV({ initialData, onSubmit, isEditing, cvId }) {
   const [formData, setFormData] = useState(
@@ -51,6 +71,8 @@ function CreateCV({ initialData, onSubmit, isEditing, cvId }) {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
   const { templateId } = useParams();
+
+  const selectedTemplate = templateStyles[templateId] || templateStyles.modern;
 
   const handlePersonalInfoChange = (e) => {
     const { name, value } = e.target;
@@ -194,7 +216,7 @@ function CreateCV({ initialData, onSubmit, isEditing, cvId }) {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div style={selectedTemplate} className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-center mb-8">Yeni CV Oluştur</h1>
 
       {error && (
@@ -1291,6 +1313,10 @@ function CreateCV({ initialData, onSubmit, isEditing, cvId }) {
           )}
         </div>
       </div>
+
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyComponent />
+      </Suspense>
     </div>
   );
 }

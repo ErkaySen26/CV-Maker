@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiMenu, FiX, FiUser, FiLogOut } from "react-icons/fi";
+import { FaPenNib } from "react-icons/fa";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,8 +24,12 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="text-2xl font-bold text-blue-600">
-            CV Maker
+          <Link
+            to="/"
+            className="text-2xl font-bold text-blue-600 flex items-center space-x-2 hover:text-blue-700 transition-colors"
+          >
+            <FaPenNib className="w-6 h-6 text-blue-600" />
+            <span className="tracking-wide">CV Oluşturucu</span>
           </Link>
 
           {/* Desktop Menu */}
@@ -33,25 +38,25 @@ const Navbar = () => {
               <>
                 <Link
                   to="/templates"
-                  className="text-gray-600 hover:text-blue-600 transition-colors"
+                  className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
                 >
                   CV Oluştur
                 </Link>
                 <Link
                   to="/my-cvs"
-                  className="text-gray-600 hover:text-blue-600 transition-colors"
+                  className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
                 >
                   CV'lerim
                 </Link>
                 <div className="relative group">
-                  <button className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors">
+                  <button className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors font-medium">
                     <FiUser className="w-5 h-5" />
                     <span>{user.email}</span>
                   </button>
                   <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                     <button
                       onClick={handleLogout}
-                      className="flex items-center space-x-2 w-full px-4 py-2 text-gray-600 hover:text-red-600 hover:bg-gray-100 transition-colors"
+                      className="flex items-center space-x-2 w-full px-4 py-2 text-gray-600 hover:text-red-600 hover:bg-gray-100 transition-colors font-medium"
                     >
                       <FiLogOut className="w-5 h-5" />
                       <span>Çıkış Yap</span>
@@ -63,13 +68,13 @@ const Navbar = () => {
               <>
                 <Link
                   to="/login"
-                  className="text-gray-600 hover:text-blue-600 transition-colors"
+                  className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
                 >
                   Giriş Yap
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                  className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium"
                 >
                   Kayıt Ol
                 </Link>
@@ -105,26 +110,28 @@ const Navbar = () => {
                 <>
                   <Link
                     to="/templates"
-                    className="block text-gray-600 hover:text-blue-600 transition-colors"
+                    className="block text-gray-600 hover:text-blue-600 transition-colors font-medium"
                     onClick={() => setIsOpen(false)}
                   >
                     CV Oluştur
                   </Link>
                   <Link
                     to="/my-cvs"
-                    className="block text-gray-600 hover:text-blue-600 transition-colors"
+                    className="block text-gray-600 hover:text-blue-600 transition-colors font-medium"
                     onClick={() => setIsOpen(false)}
                   >
                     CV'lerim
                   </Link>
                   <div className="pt-4 border-t">
-                    <div className="text-gray-600 mb-2">{user.email}</div>
+                    <div className="text-gray-600 mb-2 font-medium">
+                      {user.email}
+                    </div>
                     <button
                       onClick={() => {
                         handleLogout();
                         setIsOpen(false);
                       }}
-                      className="flex items-center space-x-2 text-red-600 hover:text-red-800 transition-colors"
+                      className="flex items-center space-x-2 text-red-600 hover:text-red-800 transition-colors font-medium"
                     >
                       <FiLogOut className="w-5 h-5" />
                       <span>Çıkış Yap</span>
@@ -135,14 +142,14 @@ const Navbar = () => {
                 <>
                   <Link
                     to="/login"
-                    className="block text-gray-600 hover:text-blue-600 transition-colors"
+                    className="block text-gray-600 hover:text-blue-600 transition-colors font-medium"
                     onClick={() => setIsOpen(false)}
                   >
                     Giriş Yap
                   </Link>
                   <Link
                     to="/register"
-                    className="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-center"
+                    className="block bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium text-center"
                     onClick={() => setIsOpen(false)}
                   >
                     Kayıt Ol
