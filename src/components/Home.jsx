@@ -19,7 +19,8 @@ const Home = () => {
           </h1>
 
           <p className="text-2xl text-gray-700 mb-10 max-w-2xl mx-auto">
-            Modern şablonlar ve yapay zeka destekli özelliklerle CV'nizi kolayca oluşturun.
+            Modern şablonlar ve yapay zeka destekli özelliklerle CV'nizi kolayca
+            oluşturun.
           </p>
           <Link
             to={user ? "/templates" : "/login"}
@@ -37,7 +38,9 @@ const Home = () => {
             className="text-center"
           >
             <div className="bg-gradient-to-br from-blue-100 to-blue-50 p-8 rounded-2xl shadow-xl">
-              <h3 className="text-2xl font-bold mb-4 text-blue-700">Modern Şablonlar</h3>
+              <h3 className="text-2xl font-bold mb-4 text-blue-700">
+                Modern Şablonlar
+              </h3>
               <p className="text-gray-700">
                 Profesyonel ve modern tasarlanmış CV şablonları ile öne çıkın
               </p>
@@ -51,7 +54,9 @@ const Home = () => {
             className="text-center"
           >
             <div className="bg-gradient-to-br from-purple-100 to-pink-50 p-8 rounded-2xl shadow-xl">
-              <h3 className="text-2xl font-bold mb-4 text-purple-700">Yapay Zeka Desteği</h3>
+              <h3 className="text-2xl font-bold mb-4 text-purple-700">
+                Yapay Zeka Desteği
+              </h3>
               <p className="text-gray-700">
                 Yapay zeka ile CV'nizi optimize edin ve öneriler alın
               </p>
@@ -65,7 +70,9 @@ const Home = () => {
             className="text-center"
           >
             <div className="bg-gradient-to-br from-green-100 to-green-50 p-8 rounded-2xl shadow-xl">
-              <h3 className="text-2xl font-bold mb-4 text-green-700">Kolay Düzenleme</h3>
+              <h3 className="text-2xl font-bold mb-4 text-green-700">
+                Kolay Düzenleme
+              </h3>
               <p className="text-gray-700">
                 Sürükle-bırak arayüzü ile CV'nizi kolayca düzenleyin
               </p>
