@@ -152,51 +152,70 @@ function Templates() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-center mb-8">CV Şablonları</h1>
-      
+    <div className="container mx-auto px-6 py-12">
+      <h1 className="text-3xl font-bold text-center mb-10">CV Şablonları</h1>
       {/* Tema Filtreleme */}
-      <div className="flex flex-wrap gap-2 justify-center mb-8">
-        <button className="px-4 py-2 rounded-full bg-blue-500 text-white hover:bg-blue-600">
-          Tümü
-        </button>
-        <button className="px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300">
-          Modern
-        </button>
-        <button className="px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300">
-          Klasik
-        </button>
-        <button className="px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300">
-          Yaratıcı
-        </button>
+      <div className="flex flex-wrap gap-3 justify-center mb-10">
+        <button className="px-5 py-2 rounded-full bg-blue-500 text-white hover:bg-blue-600 shadow">Tümü</button>
+        <button className="px-5 py-2 rounded-full bg-gray-200 hover:bg-gray-300">Modern</button>
+        <button className="px-5 py-2 rounded-full bg-gray-200 hover:bg-gray-300">Klasik</button>
+        <button className="px-5 py-2 rounded-full bg-gray-200 hover:bg-gray-300">Yaratıcı</button>
       </div>
-
       {/* Şablonlar Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {templates.map((template) => (
-          <div
-            key={template.id}
-            className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col"
-          >
-            <div className="relative pt-[133%]">
-              <img
-                src={template.image}
-                alt={template.name}
-                className="absolute top-0 left-0 w-full h-full object-cover"
-              />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 pb-24">
+        {templates.map((template, idx) => {
+          const bgColors = [
+            "bg-gradient-to-br from-blue-50 to-blue-100",
+            "bg-gradient-to-br from-pink-50 to-pink-100",
+            "bg-gradient-to-br from-green-50 to-green-100",
+            "bg-gradient-to-br from-yellow-50 to-yellow-100",
+            "bg-gradient-to-br from-gray-50 to-gray-100",
+            "bg-gradient-to-br from-purple-50 to-purple-100"
+          ];
+          const borderColors = [
+            "border-blue-200",
+            "border-pink-200",
+            "border-green-200",
+            "border-yellow-200",
+            "border-gray-200",
+            "border-purple-200"
+          ];
+          const shadowColors = [
+            "shadow-blue-200/50",
+            "shadow-pink-200/50",
+            "shadow-green-200/50",
+            "shadow-yellow-200/50",
+            "shadow-gray-200/50",
+            "shadow-purple-200/50"
+          ];
+          const i = idx % 6;
+          return (
+            <div
+              key={template.id}
+              className={`rounded-2xl overflow-hidden border ${borderColors[i]} ${bgColors[i]} ${shadowColors[i]} shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col`}
+              style={{ minHeight: 420 }}
+            >
+              <div className="relative pt-[133%] group">
+                <img
+                  src={template.image}
+                  alt={template.name}
+                  className="absolute top-0 left-0 w-full h-full object-cover rounded-t-2xl transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+              <div className="p-6 flex flex-col flex-1">
+                <h3 className="text-xl font-semibold mb-2">{template.name}</h3>
+                <p className="text-gray-700 mb-4 flex-grow">{template.description}</p>
+                <button
+                  onClick={() => handleTemplateSelect(template.id)}
+                  className={`w-full bg-blue-600 text-white py-2.5 px-4 rounded-lg font-semibold hover:bg-blue-700 shadow hover:shadow-lg transition-all duration-300 mt-auto`}
+                >
+                  Bu Şablonu Kullan
+                </button>
+              </div>
             </div>
-            <div className="p-4 flex flex-col flex-grow">
-              <h3 className="text-xl font-semibold mb-2">{template.name}</h3>
-              <p className="text-gray-600 mb-4 flex-grow">{template.description}</p>
-              <button
-                onClick={() => handleTemplateSelect(template.id)}
-                className="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition-colors duration-300"
-              >
-                Bu Şablonu Kullan
-              </button>
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

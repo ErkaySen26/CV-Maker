@@ -167,6 +167,10 @@ const CVBuilder = () => {
         { merge: true }
       );
       toast.success("CV başarıyla kaydedildi");
+      // Kısa bir gecikmeden sonra kullanıcıyı CVlerim sayfasına yönlendir
+      setTimeout(() => {
+        navigate("/my-cvs");
+      }, 1000);
     } catch (error) {
       console.error("CV kaydedilirken hata:", error);
       toast.error("CV kaydedilirken bir hata oluştu");

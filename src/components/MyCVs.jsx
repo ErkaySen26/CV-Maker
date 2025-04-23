@@ -16,21 +16,29 @@ import { motion } from "framer-motion";
 
 const MyCVs = lazy(() => import("./MyCVs"));
 
-const MyCVsComponent = () => {
+// React.memo ile sarmalanacak ana fonksiyon
+const MyCVsComponent = React.memo(() => {
   const [cvs, setCvs] = useState([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Eğer kullanıcı yoksa login sayfasına yönlendir
+    if (!user) {
+      setLoading(false);
+      navigate('/login');
+      return;
+    }
+    // Sadece gerekli alanları çekmeye çalış (Firestore'da select desteği varsa aktif et)
     const fetchCVs = async () => {
       try {
         const q = query(
           collection(db, "cvs"),
           where("userId", "==", user.uid)
-          // Specify the fields to fetch
-          // Uncomment the line below if Firestore supports field selection
-          // select("id", "content.personalInfo.fullName", "content.personalInfo.title", "updatedAt")
+          // Firestore'da select özelliği henüz web SDK'da yok, bu yüzden tüm dokümanı çekiyoruz
+          // Eğer ileride desteklenirse aşağıdaki gibi eklenebilir:
+          // select("content.personalInfo.fullName", "content.personalInfo.title", "updatedAt")
         );
         const querySnapshot = await getDocs(q);
         const cvsData = querySnapshot.docs.map((doc) => ({
@@ -45,15 +53,15 @@ const MyCVsComponent = () => {
         setLoading(false);
       }
     };
-
     fetchCVs();
   }, [user]);
 
-  const handleEdit = (cvId) => {
+  // useCallback ile fonksiyonları optimize et
+  const handleEdit = React.useCallback((cvId) => {
     navigate(`/builder/${cvId}`);
-  };
+  }, [navigate]);
 
-  const handleDelete = async (cvId) => {
+  const handleDelete = React.useCallback(async (cvId) => {
     if (window.confirm("Bu CV'yi silmek istediğinizden emin misiniz?")) {
       try {
         await deleteDoc(doc(db, "cvs", cvId));
@@ -64,12 +72,12 @@ const MyCVsComponent = () => {
         toast.error("CV silinirken bir hata oluştu");
       }
     }
-  };
+  }, []);
 
-  const handleDownload = (cvId) => {
+  const handleDownload = React.useCallback((cvId) => {
     const cv = cvs.find((cv) => cv.id === cvId);
     if (!cv) return;
-
+    // İndirilecek içerik oluşturuluyor
     const content = `
       <h1 style='text-align: center;'>${cv.content.personalInfo.fullName}</h1>
       <p><strong>Email:</strong> ${cv.content.personalInfo.email}</p>
@@ -105,7 +113,6 @@ const MyCVsComponent = () => {
         )
         .join("")}</ul>
     `;
-
     const element = document.createElement("a");
     const file = new Blob([`<html><body>${content}</body></html>`], {
       type: "application/msword",
@@ -115,7 +122,7 @@ const MyCVsComponent = () => {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
-  };
+  }, [cvs]);
 
   if (loading) {
     return (
@@ -209,6 +216,7 @@ const MyCVsComponent = () => {
       </div>
     </div>
   );
-};
+});
 
+// React.memo ile sarmalanmış bileşeni dışa aktar
 export default MyCVsComponent;

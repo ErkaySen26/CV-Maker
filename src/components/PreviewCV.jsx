@@ -40,7 +40,8 @@ function PreviewCV() {
     fetchCV();
   }, [cvId, currentUser]);
 
-  const handleDownloadPDF = () => {
+  // useCallback ile optimize edilmiş PDF indirme fonksiyonu
+  const handleDownloadPDF = React.useCallback(() => {
     const element = document.getElementById("cv-preview");
     const opt = {
       margin: 1,
@@ -51,7 +52,7 @@ function PreviewCV() {
     };
 
     html2pdf().set(opt).from(element).save();
-  };
+  });
 
   if (loading) {
     return (
@@ -338,4 +339,5 @@ function PreviewCV() {
   );
 }
 
-export default PreviewCV;
+// React.memo ile sarmalanmış bileşeni dışa aktar
+export default React.memo(PreviewCV);
